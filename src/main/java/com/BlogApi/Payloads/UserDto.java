@@ -1,5 +1,12 @@
 package com.BlogApi.Payloads;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.BlogApi.Entites.Post;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -30,5 +37,9 @@ public class UserDto {
 	
 	@NotEmpty
 	private String about;
+	
+	
+	private Set<RoleDto> roles = new HashSet();
+
 	
 }

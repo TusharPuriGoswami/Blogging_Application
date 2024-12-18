@@ -5,12 +5,17 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.BlogApi.Entites.Role;
 import com.BlogApi.Entites.User;
 import com.BlogApi.Exceptions.ResourceNotFoundException;
 import com.BlogApi.Payloads.UserDto;
+import com.BlogApi.Repositories.RoleRepo;
 import com.BlogApi.Repositories.UserRepo;
 import com.BlogApi.Services.UserService;
+import com.BlogApi.config.AppConstants;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -22,7 +27,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ModelMapper modelMapper;
     
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private RoleRepo roleRepo;
+    
 
+    //create user api
     @Override
     public UserDto createUser(UserDto userDto) {
         User user = this.dtoToUser(userDto);
@@ -30,6 +42,7 @@ public class UserServiceImpl implements UserService {
         return this.userToDto(savedUser);
     }
 
+    //update use 
     @Override
     public UserDto updateUser(UserDto userDto, Integer userId) {
         User user = this.userRepo.findById(userId)
@@ -44,6 +57,7 @@ public class UserServiceImpl implements UserService {
         return this.userToDto(updatedUser);
     }
 
+    //get single user 
     @Override
     public UserDto getUserById(Integer userId) {
         User user = this.userRepo.findById(userId)
@@ -51,6 +65,7 @@ public class UserServiceImpl implements UserService {
         return this.userToDto(user);
     }
 
+    //get all user 
     @Override
     public List<UserDto> getAllUsers() {
         List<User> users = this.userRepo.findAll();
@@ -59,6 +74,7 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    //delete user 
     @Override
     public void deleteUser(Integer userId) {
         User user = this.userRepo.findById(userId)
@@ -91,4 +107,21 @@ public class UserServiceImpl implements UserService {
 //        userDto.setAbout(user.getAbout());
         return userDto;
     }
+
+    //Register user
+	@Override
+	public UserDto registerNewUser(UserDto userDto) {
+		
+	User user = this.modelMapper.map(userDto, User.class);
+	
+	//encoded the password
+	user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+		
+	//role
+	 Role role = this.roleRepo.findById(AppConstants.NORMAL_USER).get();
+	 user.getRoles().add(role);
+	 User newUser = this.userRepo.save(user);
+	 
+		return this.modelMapper.map(newUser, UserDto.class);
+	}
 }

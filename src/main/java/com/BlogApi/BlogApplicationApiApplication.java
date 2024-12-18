@@ -8,6 +8,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import com.BlogApi.Entites.Role;
+import com.BlogApi.Repositories.RoleRepo;
+import com.BlogApi.config.AppConstants;
+
+import java.util.List;
 
 @SpringBootApplication
 
@@ -16,6 +21,9 @@ public class BlogApplicationApiApplication implements CommandLineRunner{
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private RoleRepo roleRepo;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(BlogApplicationApiApplication.class, args);
@@ -31,7 +39,36 @@ public class BlogApplicationApiApplication implements CommandLineRunner{
 		
 		
 		System.out.println(this.passwordEncoder.encode("tushar"));
-	}
-
+		
+		
+		
+		try 
+		{
+			Role role = new Role();
+			role.setId(AppConstants.ADMIN_USER);
+			role.setName("ADMIN_USER");
+			
+			Role role1 = new Role();
+			role1.setId(AppConstants.NORMAL_USER);
+			role1.setName("NORMAL_USER");
+			
+		List<Role> roles = List.of(role,role1);
 	
+		List<Role> result = this.roleRepo.saveAll(roles);
+		
+		result.forEach(r->{
+			System.out.println(r.getName());
+		});
+			
+		}
+		catch(Exception e) {
+			
+			e.printStackTrace();
+		}
+
+		
+	}
+	
+		
 }
+
