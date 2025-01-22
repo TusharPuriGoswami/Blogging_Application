@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.BlogApi.Entites.Post;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -25,21 +27,34 @@ public class UserDto {
 	private int id;
 	
 	@NotEmpty
-	@Size(min = 4 , message = "Username must be min of 4 characters")
+	@Size(min = 4 , message = "Username must be min of 4 characters !!")
 	private String name;
 	
-	@Email(message = "Email is not valid")
+	@Email(message = "Email is not valid !!")
+	@NotEmpty(message = "email is Required !!")
 	private String email;
 	
 	@NotEmpty
-	@Size(min = 3,max = 10 , message = "Password must be min of 3 char and max of 10 char!!")
+	@Size(min = 3,max = 10 , message = "Password must be min of 3 char and max of 10 char !!")
 	private String password;
 	
 	@NotEmpty
+	@Size(min = 4 , message = "About must be min of 4 characters!!")
 	private String about;
 	
 	
 	private Set<RoleDto> roles = new HashSet();
+	
+	
+	@JsonIgnore
+	public String getPassword() {
+		return this.password;
+	}
+	
+	@JsonProperty
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	
 }

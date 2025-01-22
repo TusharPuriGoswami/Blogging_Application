@@ -3,6 +3,7 @@ package com.BlogApi.Payloads;
 import java.sql.Date;
 import java.util.*;
 
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import lombok.Setter;
 public class PostDto {
 
 	private String title;
+	
 	
 	private String content;
 	

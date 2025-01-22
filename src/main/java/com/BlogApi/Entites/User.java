@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.modelmapper.internal.asm.tree.TryCatchBlockNode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,6 +43,8 @@ public class User implements UserDetails {
 	
 	@Column(name = "user_name" , nullable = false , length = 100)
 	private String name;
+	
+	@Column(unique = true)
 	private String email;
 	private String password;
 	private String about;

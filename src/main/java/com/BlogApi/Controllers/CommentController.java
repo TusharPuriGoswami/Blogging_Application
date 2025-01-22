@@ -16,7 +16,7 @@ import com.BlogApi.Payloads.CommentDto;
 import com.BlogApi.Services.CommentService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/")
 public class CommentController {
 	
 	@Autowired

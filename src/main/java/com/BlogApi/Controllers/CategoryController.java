@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.*;
 import com.BlogApi.Payloads.ApiResponse;
 import com.BlogApi.Payloads.CategoryDto;
@@ -14,17 +15,25 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("api/categories")
-public class CategoryCoontroller {
+public class CategoryController {
 	
 	@Autowired
 	private CategoryService categoryService;
 	
-	 // CREATE Category
-    @PostMapping("/")
-    public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryDto categoryDto) {
-        CategoryDto createdCategory = this.categoryService.createCategoty(categoryDto);
-        return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
-    }
+//	 // CREATE Category
+//    @PostMapping("/")
+//    public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryDto categoryDto) {
+//        CategoryDto createdCategory = this.categoryService.createCategoty(categoryDto);
+//        return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
+//        
+//
+//    }
+	@PostMapping("/")
+	public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryDto categoryDto) {
+	    CategoryDto createdCategory = this.categoryService.createCategoty(categoryDto);
+	    return new ResponseEntity<>(createdCategory, HttpStatus.CREATED);
+	}
+
 
     // UPDATE Category
     @PutMapping("/{catId}")
