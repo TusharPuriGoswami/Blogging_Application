@@ -31,13 +31,14 @@ public class SecurityConfig {
 
     // Publicly accessible endpoints
     public static final String[] PUBLIC_URLS = {
-        "/api/auth/**",
-        "/v3/api-docs",
-        "/v2/api-docs",
-        "/swagger-resources/**",
-        "/swagger-ui/**",
-        "/webjars/**"
-    };
+    "/api/auth/**",
+    "/v3/api-docs",
+    "/v2/api-docs",
+    "/swagger-resources/**",
+    "/swagger-ui/**",
+    "/webjars/**"
+};
+
 
     @Autowired
     private CustomUserDetailService customUserDetailService;
