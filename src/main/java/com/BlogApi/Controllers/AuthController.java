@@ -115,12 +115,19 @@ public class AuthController {
     }
     
     //Register new user 
-    @PostMapping("/register")
-    public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserDto userDto){
-    	UserDto registeredUser =  this.userService.registerNewUser(userDto);
-    	return new ResponseEntity<UserDto>(registeredUser , HttpStatus.CREATED);
+
+	@PostMapping("/register")
+public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserDto userDto) {
+    UserDto registeredUser = this.userService.registerNewUser(userDto);
+    return new ResponseEntity<UserDto>(registeredUser, HttpStatus.CREATED);
+}
+
+    // @PostMapping("/register")
+    // public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserDto userDto){
+    // 	UserDto registeredUser =  this.userService.registerNewUser(userDto);
+    // 	return new ResponseEntity<UserDto>(registeredUser , HttpStatus.CREATED);
     	
-    }
+    // }
     
     
 }
