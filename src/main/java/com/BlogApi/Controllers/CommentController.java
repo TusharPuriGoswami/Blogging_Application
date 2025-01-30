@@ -24,7 +24,7 @@ public class CommentController {
 	
 	
 	 // Create a comment
-    @PostMapping("/post/{postId}")
+    @PostMapping("/post/{postId}/comment")
     public ResponseEntity<CommentDto> createComment(
             @RequestBody CommentDto commentDto,
             @PathVariable Integer postId) {
