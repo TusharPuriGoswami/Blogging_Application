@@ -79,33 +79,6 @@ public class AuthController {
 	}
 
     
-    
-//    @PostMapping("login")
-//    public ResponseEntity<?> createToken(@RequestBody JwtAuthRequest request) {
-//        try {
-//            this.authenticate(request.getUsername(), request.getPassword());
-//            
-//            UserDetails userDetails = this.userDetailsService.loadUserByUsername(request.getUsername());
-//            String token = this.jwtTokenHelper.generateToken(userDetails);
-//            
-//           
-//            
-//            JwtAuthResponse response = new JwtAuthResponse();
-//            response.setToken(token);
-//            
-//            response.setUser(this.modelMapper.map((User) userDetails, UserDto.class));
-//            
-//            return new ResponseEntity<>(response, HttpStatus.OK);
-//        } catch (BadCredentialsException e) {
-//        	System.out.println(e);
-//            return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);
-//           
-//        } 
-//        catch (Exception e) {
-//        	System.out.println(e);
-//            return new ResponseEntity<>("Authentication failed !", HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
 
     //JWT authentication
     private void authenticate(String username, String password) throws Exception {
