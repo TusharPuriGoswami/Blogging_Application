@@ -134,7 +134,37 @@ public class PostController {
     
     //Post Image upload Controller
     
-    @PostMapping("/post/image/upload/{postId}")
+    // @PostMapping("/post/image/upload/{postId}")
+    // public ResponseEntity<?> uploadPostImage(@RequestParam("image") MultipartFile image,
+    //                                          @PathVariable Integer postId) throws IOException {
+
+    //     // Validate file type
+    //     String contentType = image.getContentType();
+    //     if (contentType == null || 
+    //        (!contentType.equals("image/jpeg") && !contentType.equals("image/png"))) {
+    //         return new ResponseEntity<>("Invalid file type. Only JPG and PNG files are allowed.", HttpStatus.BAD_REQUEST);
+    //     }
+
+    //     // Validate file size (optional, example: 2MB limit)
+    //     if (image.getSize() > 2 * 1024 * 1024) {
+    //         return new ResponseEntity<>("File size exceeds limit (2MB).", HttpStatus.BAD_REQUEST);
+    //     }
+
+    //     // Fetch the post
+    //     PostDto postDto = this.postService.getPostById(postId);
+
+    //     // Upload the image
+    //     String fileName = this.fileService.uploadImage(path, image);
+
+    //     // Update post with image name
+    //     postDto.setImageName(fileName);
+    //     PostDto updatePost = this.postService.updatePost(postDto, postId);
+
+    //     return new ResponseEntity<>(updatePost, HttpStatus.OK);
+    // }
+
+    
+      @PostMapping("/post/image/upload/{postId}")
     public ResponseEntity<?> uploadPostImage(@RequestParam("image") MultipartFile image,
                                              @PathVariable Integer postId) throws IOException {
 
@@ -162,33 +192,25 @@ public class PostController {
 
         return new ResponseEntity<>(updatePost, HttpStatus.OK);
     }
+   
+    
 
-    
-//    @PostMapping("/post/image/upload/{postId}")
-//    public ResponseEntity<PostDto> uploadPostImage(@RequestParam("image") MultipartFile image,
-//    		@PathVariable Integer postId)throws IOException{
-//    	
-//    		
-//    	PostDto postDto = this.postService.getPostById(postId);
-//    	String fileName = this.fileService.uploadImage(path, image);
-//    	
-//    	postDto.setImageName(fileName);
-//    	PostDto updatePost = this.postService.updatePost(postDto, postId);
-//    	return new ResponseEntity<PostDto>(updatePost , HttpStatus.OK);
-//    }
-//    
-    
-    
-    
-    @GetMapping(value = "/post/image/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public void downloadImage(
-            @PathVariable("imageName") String imageName,
-            HttpServletResponse response) throws IOException {
-
+	  @GetMapping(value = "/post/image/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public void downloadImage(@PathVariable("imageName") String imageName, HttpServletResponse response) throws IOException {
         InputStream resource = this.fileService.getResource(path, imageName);
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-        StreamUtils.copy(resource, response.getOutputStream());
+        resource.transferTo(response.getOutputStream());
     }
+    
+    // @GetMapping(value = "/post/image/{imageName}", produces = MediaType.IMAGE_JPEG_VALUE)
+    // public void downloadImage(
+    //         @PathVariable("imageName") String imageName,
+    //         HttpServletResponse response) throws IOException {
+
+    //     InputStream resource = this.fileService.getResource(path, imageName);
+    //     response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+    //     StreamUtils.copy(resource, response.getOutputStream());
+    // }
 
 
    
