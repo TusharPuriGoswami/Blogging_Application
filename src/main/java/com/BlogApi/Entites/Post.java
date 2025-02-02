@@ -52,8 +52,12 @@ public class Post {
 	private User user; 
 	
     // Mapping to the Comment entity, not CommentDto
+//	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Comment> comments = new ArrayList<>();
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
+	private Set<Comment> comments = new HashSet<>();
+
+
 	
 	
 }

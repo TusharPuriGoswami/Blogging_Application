@@ -1,5 +1,10 @@
 package com.BlogApi.Services.impl;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.sql.Date;
 import java.util.*;
 import java.util.stream.Collector;
@@ -25,8 +30,11 @@ import com.BlogApi.Services.PostService;
 
 @Service
 public class PostServiceImpl implements PostService{
-	
-	
+
+	//private static final Logger logger = LoggerFactory.getLogger(PostServiceImpl.class);
+
+
+
 
 	@Autowired
     private PostRepo postRepo;
@@ -69,9 +77,14 @@ public class PostServiceImpl implements PostService{
 	            .orElseThrow(() -> new ResourceNotFoundException("Post", "post Id", postId));
 	    
 	    // Update the post
+	    
+	   Category category = this.categoryRepo.findById(postDto.getCategory().getCategoryId()).get();
+	    
+	    
 	    post.setTitle(postDto.getTitle());
 	    post.setContent(postDto.getContent());
 	    post.setImageName(postDto.getImageName());
+	    post.setCategory(category);
 
 
 	    Post updatedPost = this.postRepo.save(post);
@@ -79,14 +92,25 @@ public class PostServiceImpl implements PostService{
 	    return this.modelMapper.map(updatedPost, PostDto.class);
 	}
 
+	//delete post
+	
+	@Transactional
 	@Override
 	public void deletePost(Integer postId) {
-		//find the post id 
-
-		Post post = this.postRepo.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post","post Id", postId));
-		
-		this.postRepo.delete(post);
+	    Post post = this.postRepo.findById(postId)
+	            .orElseThrow(() -> new ResourceNotFoundException("Post", "post Id", postId));
+	    this.postRepo.delete(post);
 	}
+//	@Override
+//	public void deletePost(Integer postId) {
+//		//find the post id
+//
+//		Post post = this.postRepo.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post","post Id", postId));
+//
+//		this.postRepo.delete(post);
+//	}
+
+
 
 	@Override
 	public PostResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy , String sortDir) {

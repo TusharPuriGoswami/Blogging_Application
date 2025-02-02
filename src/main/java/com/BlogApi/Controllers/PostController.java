@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.BlogApi.Payloads.ApiResponse;
 import com.BlogApi.Payloads.PostDto;
 import com.BlogApi.Payloads.PostResponse;
 import com.BlogApi.Services.FileService;
@@ -56,7 +58,7 @@ public class PostController {
 	public ResponseEntity<PostResponse> getPostsByUser(
 	        @PathVariable Integer userId,
 	        @RequestParam(value = "pageNumber", defaultValue = "0", required = false) Integer pageNumber,
-	        @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize) {
+	        @RequestParam(value = "pageSize", defaultValue = "20", required = false) Integer pageSize) {
 	    
 	    PostResponse postResponse = this.postService.getPostByUser(userId, pageNumber, pageSize);
 	    return new ResponseEntity<>(postResponse, HttpStatus.OK);
@@ -95,13 +97,21 @@ public class PostController {
     }
     
     
-    //delete post
+//    // Endpoint to delete a post
+    // DELETE POST API
+//    @DeleteMapping("/posts/{postId}")
+//    public ResponseEntity<ApiResponse> deletePost(@PathVariable Integer postId) {
+//        this.postService.deletePost(postId);
+//        return new ResponseEntity<>(new ApiResponse("Post is successfully deleted !!", true), HttpStatus.OK);
+//    }
+
+ // delete post
     @DeleteMapping("/posts/{postId}")
-    public ResponseEntity<String> deletePost(@PathVariable Integer postId){
-    	
-    	this.postService.deletePost(postId);
-    	return ResponseEntity.ok("post deleted Successfully");
+    public ResponseEntity<ApiResponse> deletePost(@PathVariable Integer postId) {
+        this.postService.deletePost(postId);
+        return new ResponseEntity<>(new ApiResponse("Post successfully deleted!", true), HttpStatus.OK);
     }
+
     
     //update post 
     
