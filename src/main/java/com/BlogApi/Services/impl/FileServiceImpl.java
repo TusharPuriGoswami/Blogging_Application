@@ -1,3 +1,62 @@
+// package com.BlogApi.Services.impl;
+
+// import java.io.File;
+// import java.io.FileInputStream;
+// import java.io.FileNotFoundException;
+// import java.io.IOException;
+// import java.io.InputStream;
+// import java.nio.file.Files;
+// import java.nio.file.Paths;
+
+// import org.springframework.stereotype.Service;
+// import org.springframework.web.multipart.MultipartFile;
+// import com.BlogApi.Services.FileService;
+
+// @Service
+// public class FileServiceImpl implements FileService {
+	
+	
+// 	@Override
+// 	public String uploadImage(String path , MultipartFile file) throws IOException{
+
+// 	//File Name
+
+// 	String name = file.getOriginalFilename();
+
+// 	//Full Path
+
+// 	String filePath = path+ File.separator+name;
+
+// 	//create folder if not created
+// 	File f = new File(path);
+// 	if(!f.exists()){
+
+// 	f.mkdir();
+
+// 	}
+
+// 	//File Copy
+
+// 	Files.copy(file.getInputStream(),Paths.get(filePath));
+
+// 	return name;
+// 	}
+
+// 	@Override
+// 	public InputStream getResource(String path, String fileName) throws FileNotFoundException {
+
+// 		String fullpath=path+File.separator+fileName;
+// 		InputStream is = new FileInputStream(fullpath);
+		
+		
+// 		return is;
+// 	}
+	
+	
+	
+
+// }
+
 package com.BlogApi.Services.impl;
 
 import java.io.File;
@@ -10,49 +69,50 @@ import java.nio.file.Paths;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.BlogApi.Services.FileService;
 
 @Service
 public class FileServiceImpl implements FileService {
-	
-	
-	@Override
-	public String uploadImage(String path , MultipartFile file) throws IOException{
 
-	//File Name
+    @Override
+    public String uploadImage(String path, MultipartFile file) throws IOException {
 
-	String name = file.getOriginalFilename();
+        // File Name
+        String name = file.getOriginalFilename();
 
-	//Full Path
+        // Get absolute project directory
+        String projectDir = System.getProperty("user.dir");
 
-	String filePath = path+ File.separator+name;
+        // Ensure the images folder is inside the project directory
+        String uploadDir = projectDir + File.separator + "images"; // images folder in root directory
 
-	//create folder if not created
-	File f = new File(path);
-	if(!f.exists()){
+        // Ensure directory exists
+        File f = new File(uploadDir);
+        if (!f.exists()) {
+            f.mkdirs();  // Create directory if it doesn't exist
+        }
 
-	f.mkdir();
+        // Full path for saving file
+        String filePath = uploadDir + File.separator + name;
 
-	}
+        // Copy file to directory
+        Files.copy(file.getInputStream(), Paths.get(filePath));
 
-	//File Copy
+        return name;
+    }
 
-	Files.copy(file.getInputStream(),Paths.get(filePath));
+    @Override
+    public InputStream getResource(String path, String fileName) throws FileNotFoundException {
 
-	return name;
-	}
+        // Get absolute project directory
+        String projectDir = System.getProperty("user.dir");
 
-	@Override
-	public InputStream getResource(String path, String fileName) throws FileNotFoundException {
+        // Construct full image path
+        String fullPath = projectDir + File.separator + "images" + File.separator + fileName;
 
-		String fullpath=path+File.separator+fileName;
-		InputStream is = new FileInputStream(fullpath);
-		
-		
-		return is;
-	}
-	
-	
-	
-
+        // Return file as InputStream
+        return new FileInputStream(fullPath);
+    }
 }
+
